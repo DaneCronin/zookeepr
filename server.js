@@ -50,16 +50,28 @@ function filterByQuery(query, animalsArray) {
     return filteredResults;
 }
 
+function findById(id, animalsArray) {
+    const result = animalsArray.filter(animal => animal.id === id)[0];
+    return result;
+  }
 
 //Add the route for the request
-app.get('/api/animals', (req, res) => {
+pp.get('/api/animals', (req, res) => {
     let results = animals;
-    //console.log(req.query);
     if (req.query) {
-        results = filterByQuery(req.query, results);
+      results = filterByQuery(req.query, results);
     }
     res.json(results);
-});
+  });
+  
+  app.get('/api/animals/:id', (req, res) => {
+    const result = findById(req.params.id, animals);
+    if (result) {
+      res.json(result);
+    } else {
+      res.send(404);
+    }
+  });
 
 //chain listen() method to server to have server listen for requests
 app.listen(PORT, () => {
