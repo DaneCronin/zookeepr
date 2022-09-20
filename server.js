@@ -3,6 +3,9 @@ const express = require('express');
 //require data that front-end can request data from
 const { animals } = require('./data/animals');
 
+//use test environment portal 3001 if not portal 80
+const PORT = process.env.PORT || 3001;
+
 //instantiate the server
 const app = express();
 
@@ -59,6 +62,6 @@ app.get('/api/animals', (req, res) => {
 });
 
 //chain listen() method to server to have server listen for requests
-app.listen(3001, () => {
-    console.log('API server now on port 3001!');
+app.listen(PORT, () => {
+    console.log(`API server now on port ${PORT}`);
 });
