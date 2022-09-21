@@ -11,6 +11,21 @@ const PORT = process.env.PORT || 3001;
 //instantiate the server
 const app = express();
 
+//Express.js middleware that instructs server to make front end files available
+app.use(express.static('public'));
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+})
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+})
+
+//Wildcard Route to catch unintentional routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+})
+
+
 //Parse(convert) incoming POST data string or array data
 app.use(express.urlencoded({ extended : true}));
 //Parse(convert) incoming JSON data
@@ -129,6 +144,12 @@ app.post('/api/animals', (req, res) => {
     res.json(animal);
     }
 });
+
+
+//GET route to connect server with API to index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+})
 
 //chain listen() method to server to have server listen for requests
 app.listen(PORT, () => {
